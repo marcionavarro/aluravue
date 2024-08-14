@@ -1,27 +1,31 @@
 <template>
-  <div class="container mt-5">
-    <h1 class="mb-3">Novo usuário</h1>
-    <form @submit.prevent="enviarFormulario">
-      <div class="form-group">
-        <label>Nome</label>
-        <input type="text" class="form-control" v-model="usuario.nome">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="row col-12 justify-content-md-center mb-5">
+        <h1>Cadastrar Usuário</h1>
       </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" class="form-control" v-model="usuario.email">
+      <div class="col-6">
+        <form @submit.prevent="enviarFormulario">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" class="form-control" v-model="usuario.nome">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" v-model="usuario.email">
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" class="form-control" v-model="usuario.senha">
+          </div>
+          <button class="btn btn-success" type="submit">Salvar</button>
+        </form>
       </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" class="form-control" v-model="usuario.senha">
-      </div>
-      <button class="btn btn-success" type="submit">Salvar</button>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   data: function () {
     return {
@@ -33,15 +37,16 @@ export default {
     }
   },
   methods: {
-    enviarFormulario() {
-      axios.post('http://localhost:8000/auth/register', this.usuario)
-          .then(resposta => console.log(resposta))
-          .catch(erro => console.log(erro))
+    enviarFormulario () {
+      this.$http.post('auth/register', this.usuario)
+        .then(resposta => {
+          console.log(resposta)
+          this.$router.push({ name: 'login' })
+        })
+        .catch(erro => console.log(erro))
     }
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
