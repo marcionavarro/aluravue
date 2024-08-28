@@ -14,7 +14,7 @@ export default {
   components: {
     Gerente
   },
-  data() {
+  data () {
     return {
       gerentes: []
     }
@@ -22,11 +22,9 @@ export default {
   mounted () {
     this.$http.get('gerentes')
       .then(response => this.gerentes = response.data)
-      .catch(erro => console.log(erro))
+      .catch(erro => console.log('ERROR: ', erro.message))
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
