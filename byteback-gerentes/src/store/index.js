@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
-import http from './http'
+import http from '@/http'
 
 Vue.use(Vuex)
 
@@ -32,15 +32,20 @@ const actions = {
           resolve(res.data)
         })
         .catch(err => {
-          console.log(err)
+          console.log('ERROR: ', err.message)
           reject(err)
         })
     })
   }
 }
 
+const getters = {
+  usuarioEstaLogado: state => Boolean(state.token)
+}
+
 export default new Vuex.Store({
   state,
   mutations,
-  actions
+  actions,
+  getters
 })

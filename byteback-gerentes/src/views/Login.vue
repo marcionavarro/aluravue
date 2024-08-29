@@ -5,6 +5,7 @@
         <h1>Login</h1>
       </div>
       <div class="col-6">
+        <div v-if="mensagemErro" class="alert alert-danger">{{ mensagemErro }}</div>
         <form @submit.prevent="efetuarLogin">
           <div class="form-group">
             <label for="email">E-mail</label>
@@ -30,13 +31,24 @@
 export default {
   data () {
     return {
-      usuario: {}
+      usuario: {},
+      mensagemErro: ''
     }
   },
   methods: {
     efetuarLogin () {
       this.$store.dispatch('efetuarLogin', this.usuario)
-        .then(() => this.$router.push({ name: 'gerentes' }))
+        .then(() => {
+          this.$router.push({ name: 'gerentes' })
+          this.mensagemErro = ''
+        })
+        .catch(err => {
+          console.log(err)
+          if(err.request.status === 401){
+            this.mensagemErro = 'Login ou senha inválido(s)'
+            this.usuario = {}
+          }
+        })
     }
   }
 }
