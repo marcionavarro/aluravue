@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="row justify-content-md-center">
-      <div class="row col-12 justify-content-md-center mb-5">
+      <div class="row col-12 justify-content-center mb-5">
         <h1>Login</h1>
       </div>
-      <div class="col-6">
-        <div v-if="mensagemErro" class="alert alert-danger">{{ mensagemErro }}</div>
+      <div class="col-xs-12 col-md-8 col-lg-6">
+        <AlertError v-if="mensagemErro" :mensagemErro="mensagemErro" />
         <form @submit.prevent="efetuarLogin">
           <div class="form-group">
             <label for="email">E-mail</label>
@@ -28,7 +28,13 @@
 </template>
 
 <script>
+import AlertError from '../components/AlertError.vue';
+
 export default {
+  name: 'Login',
+  components: {
+    AlertError
+  },
   data () {
     return {
       usuario: {},
@@ -44,7 +50,7 @@ export default {
         })
         .catch(err => {
           console.log(err)
-          if(err.request.status === 401){
+          if (err.request.status === 401) {
             this.mensagemErro = 'Login ou senha inválido(s)'
             this.usuario = {}
           }

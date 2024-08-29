@@ -15,8 +15,11 @@ const mutations = {
     state.usuario = usuario
   },
   DESLOGAR_USUARIO (state) {
-    state.token = null,
-      state.usuario = {}
+    state.token = null
+    state.usuario = {}
+  },
+  REGISTRAR_USUARIO (state, { usuario }) {
+    state.usuario = usuario
   }
 }
 
@@ -28,6 +31,21 @@ const actions = {
           commit('DEFINIR_USUARIO_LOGADO', {
             token: res.data.access_token,
             usuario: res.data.user
+          })
+          resolve(res.data)
+        })
+        .catch(err => {
+          console.log('ERROR: ', err.message)
+          reject(err)
+        })
+    })
+  },
+  enviarFormulario ({ commit }, usuario) {
+    return new Promise((resolve, reject) => {
+      http.post('auth/register', usuario)
+        .then(res => {
+          commit('REGISTRAR_USUARIO', {
+            usuario: res.data.usuario
           })
           resolve(res.data)
         })

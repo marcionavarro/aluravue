@@ -1,10 +1,11 @@
 <template>
   <div class="container">
     <div class="row justify-content-md-center">
-      <div class="row col-12 justify-content-md-center mb-5">
+      <div class="row col-12 justify-content-center mb-5">
         <h1>Cadastrar Usuário</h1>
       </div>
-      <div class="col-6">
+      <div class="col-xs-12 col-md-8 col-lg-6">
+        <AlertError v-if="mensagemErro" :mensagemErro="mensagemErro" />
         <form @submit.prevent="enviarFormulario">
           <div class="form-group">
             <label>Nome</label>
@@ -26,24 +27,40 @@
 </template>
 
 <script>
+import AlertError from '../components/AlertError.vue';
+
 export default {
+  name: 'Registra',
+  components: {
+    AlertError
+  },
   data: function () {
     return {
       usuario: {
         nome: '',
         email: '',
         senha: ''
-      }
+      },
+      mensagemErro: ''
     }
   },
   methods: {
     enviarFormulario () {
-      this.$http.post('auth/register', this.usuario)
-        .then(resposta => {
-          console.log(resposta)
+      this.isFieldsEmpty()
+
+      this.$store.dispatch('enviarFormulario', this.usuario)
+        .then(() => {
           this.$router.push({ name: 'login' })
+          this.mensagemErro = ''
         })
-        .catch(erro => console.log(erro))
+        .catch(err => console.log(err))
+    },
+    isFieldsEmpty () {
+      const { name, email, senha } = this.usuario
+      if (name === '' || email === '' || senha === '') {
+        this.mensagemErro = 'Por favor, preencha todos os campos'
+        return
+      }
     }
   }
 }

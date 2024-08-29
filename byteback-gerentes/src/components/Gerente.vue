@@ -1,5 +1,5 @@
 <template>
-  <div class="col-3">
+  <div class="col-md-6 col-lg-3">
     <div class="card  mb-3">
       <div class="card-header text-white bg-success">{{ gerente.nome }}</div>
       <div class="card-body">
