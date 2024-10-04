@@ -5,7 +5,7 @@
             <button
               class="button mr-5"
               @click="iniciar"
-              :disabled="cronometroRodando"
+              :disabled="descricaoInvalida || cronometroRodando"
             >
               <span class="icon">
                 <i class="fas fa-play"></i>
@@ -31,9 +31,15 @@ import { defineComponent } from "vue";
 import Cronometro from "./Cronometro.vue";
 
 export default defineComponent({
-  components: { Cronometro },
-  emits: ["aoTemporizadorFinalizado"],
   name: "Temporizador",
+  components: { Cronometro },
+  props: {
+    descricaoInvalida: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  emits: ["aoTemporizadorFinalizado"],
   data() {
     return {
       tempoEmSegundos: 0,
@@ -43,10 +49,12 @@ export default defineComponent({
   },
   methods: {
     iniciar() {
-      this.cronometroRodando = true;
-      this.cronometro = setInterval(() => {
-        this.tempoEmSegundos++;
-      }, 1000);
+      if (!this.descricaoInvalida) {
+        this.cronometroRodando = true;
+        this.cronometro = setInterval(() => {
+          this.tempoEmSegundos++;
+        }, 1000);
+      }
     },
     finalizar() {
       this.cronometroRodando = false;
