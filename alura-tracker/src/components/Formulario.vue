@@ -1,8 +1,8 @@
 <template>
-  <div class="box">
-    <div class="columns">
+  <div class="box formulario">
+    <div class="columns is-desktop">
       <div
-        class="column is-6 is-flex is-align-items-center"
+        class="column is-flex is-align-items-center"
         role="form"
         aria-label="Formulário para criação de uma nova tarefa"
       >
@@ -14,7 +14,7 @@
           v-model="descricao"
         />
       </div>
-      <div class="column is-6">
+      <div class="column ">
         <Temporizador
           @aoTemporizadorFinalizado="finalizarTarefa"
           :descricaoInvalida="descricaoInvalida"
@@ -54,5 +54,9 @@ export default defineComponent({
 });
 </script>
 
-<style lang="">
+<style>
+.formulario {
+  color: var(--texto-primario);
+  background-color: var(--bg-primario);
+}
 </style>
