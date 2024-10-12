@@ -1,4 +1,4 @@
-<template>
+F<template>
   <main
     class="columns is-gapless is-multiline"
     :class="{'modo-escuro': modoEscuroAtivo}"
