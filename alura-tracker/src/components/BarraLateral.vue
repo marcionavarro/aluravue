@@ -1,15 +1,17 @@
 <template>
   <header>
-    <h1>
+    <h1 class="is-flex">
       <img
         src="../assets/logo.png"
         alt="Logo AluraTracker"
+        class="mx-auto"
       >
     </h1>
-    <div>
+    <div class="is-flex" style="margin-top: -4px">
       <button
-        class="button"
+        class="button mx-auto"
         :class="{'is-dark': modoEscuroAtivo}"
+        style="border: none; border-top-left-radius: 0;border-top-right-radius: 0; "
         @click="alterarTema"
       >
         {{ textoBotao }}
