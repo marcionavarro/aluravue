@@ -1,6 +1,6 @@
 <template>
-  <section class="ml-5">
-    <strong class="is-size-2 display">{{ tempoDecorrido }}</strong>
+  <section class="ml-5 has-text-right">
+    <strong class="is-size-5-mobile is-size-4-widescreen display">{{ tempoDecorrido }}</strong>
   </section>
 </template>
 

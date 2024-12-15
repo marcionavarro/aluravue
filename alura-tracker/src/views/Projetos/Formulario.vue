@@ -15,13 +15,21 @@
         />
       </div>
       <div class="field">
-        <button
-          class="button"
-          type="submit"
-          :disabled="projetoInvalido"
-        >
-          {{ buttonForm() }}
-        </button>
+        <div class="buttons is-flex is-justify-content-space-between is-small">
+          <button
+            class="button"
+            type="submit"
+            :disabled="projetoInvalido"
+          >
+            {{ buttonForm() }}
+          </button>
+          <router-link
+            to="/projetos"
+            class="button"
+          >
+            <span>Voltar</span>
+          </router-link>
+        </div>
       </div>
     </form>
   </section>
@@ -29,12 +37,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store";
-import {
-  ADICIONA_PROJETO,
-  ALTERA_PROJETO,
-  NOTIFICAR,
-} from "@/store/tipo-mutacoes";
-import { tipoNotificacao } from "@/interfaces/INotificacao";
+import { ADICIONA_PROJETO, ALTERA_PROJETO } from "@/store/tipo-mutacoes";
+import { TipoNotificacao } from "@/interfaces/INotificacao";
+// import { notificacaoMixin } from "../mixins/notificar";
+import useNotificador from "@/hooks/notificador";
 
 export default defineComponent({
   name: "Formulario",
@@ -43,6 +49,7 @@ export default defineComponent({
       type: String,
     },
   },
+  // mixins: [notificacaoMixin],
   mounted() {
     if (this.id) {
       const projeto = this.store.state.projetos.find(
@@ -65,14 +72,26 @@ export default defineComponent({
           nome: this.nomeDoProjeto,
         });
       } else {
+        const isNomeProjeto = this.exiteNomeDoProjeto();
+
+        if (isNomeProjeto.length) {
+          this.notificar(
+            TipoNotificacao.ATENCAO,
+            "Oopss...! Já existe um projeto com este nome",
+            "Digite um nome diferente"
+          );
+          this.nomeDoProjeto = "";
+          return this.checarProjeto();
+        }
+
         this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto);
       }
       this.nomeDoProjeto = "";
-      this.store.commit(NOTIFICAR, {
-        titulo: "Novo projeto foi salvo",
-        texto: "Prontinho ;) seu projeto já está disponível.",
-        tipo: tipoNotificacao.SUCESSO,
-      });
+      this.notificar(
+        TipoNotificacao.SUCESSO,
+        "Novo projeto foi salvo",
+        "Prontinho ;) seu projeto já está disponível."
+      );
       this.$router.push("/projetos");
     },
     buttonForm() {
@@ -81,11 +100,18 @@ export default defineComponent({
     checarProjeto() {
       this.projetoInvalido = this.nomeDoProjeto.length <= 5;
     },
+    exiteNomeDoProjeto() {
+      return this.store.state.projetos.filter(
+        (p) => p.nome === this.nomeDoProjeto
+      );
+    },
   },
   setup() {
     const store = useStore();
+    const { notificar } = useNotificador();
     return {
       store,
+      notificar,
     };
   },
 });

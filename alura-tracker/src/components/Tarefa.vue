@@ -1,8 +1,11 @@
 <template>
   <Box>
-    <div class="columns">
-      <div class="column is-7 is-align-content-center">
+    <div class="columns is-mobile">
+      <div class="column is-size-7-mobile is-size-5-widescreen is-align-content-center">
         {{ tarefa.descricao }}
+      </div>
+      <div class="column is-size-7-mobile is-size-5-widescreen is-align-content-center">
+        {{ tarefa.projeto?.nome }}
       </div>
       <div class="column is-align-content-center">
         <Cronometro :tempoEmSegundos="tarefa.duracaoEmSegundos" />

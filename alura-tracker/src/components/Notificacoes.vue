@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { tipoNotificacao } from "@/interfaces/INotificacao";
+import { TipoNotificacao } from "@/interfaces/INotificacao";
 import { useStore } from "@/store";
 import { computed, defineComponent } from "vue";
 
@@ -26,10 +26,10 @@ export default defineComponent({
   data() {
     return {
       contexto: {
-        [tipoNotificacao.SUCESSO]: "is-success",
-        [tipoNotificacao.ATENCAO]: "is-warning",
-        [tipoNotificacao.FALHA]: "is-danger",
-        [tipoNotificacao.DARK]: "is-dark",
+        [TipoNotificacao.SUCESSO]: "is-success",
+        [TipoNotificacao.ATENCAO]: "is-warning",
+        [TipoNotificacao.FALHA]: "is-danger",
+        [TipoNotificacao.DARK]: "is-dark",
       },
     };
   },
