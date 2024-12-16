@@ -5,7 +5,9 @@
         <label
           for="nomeDoProjeto"
           class="label"
-        >Nome do projeto</label>
+        >
+          Nome do projeto
+        </label>
         <input
           type="text"
           class="input"
@@ -37,10 +39,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store";
-import { ADICIONA_PROJETO, ALTERA_PROJETO } from "@/store/tipo-mutacoes";
 import { TipoNotificacao } from "@/interfaces/INotificacao";
-// import { notificacaoMixin } from "../mixins/notificar";
 import useNotificador from "@/hooks/notificador";
+import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from "@/store/tipo-acoes";
 
 export default defineComponent({
   name: "Formulario",
@@ -49,13 +50,13 @@ export default defineComponent({
       type: String,
     },
   },
-  // mixins: [notificacaoMixin],
   mounted() {
     if (this.id) {
       const projeto = this.store.state.projetos.find(
-        (proj) => proj.id === this.id
+        (proj) => proj.id == this.id
       );
       this.nomeDoProjeto = projeto?.nome || "";
+      this.checarProjeto();
     }
   },
   data() {
@@ -67,12 +68,14 @@ export default defineComponent({
   methods: {
     salvar() {
       if (this.id) {
-        this.store.commit(ALTERA_PROJETO, {
-          id: this.id,
-          nome: this.nomeDoProjeto,
-        });
+        this.store
+          .dispatch(ALTERAR_PROJETO, {
+            id: this.id,
+            nome: this.nomeDoProjeto,
+          })
+          .then(() => this.lidarComSucesso());
       } else {
-        const isNomeProjeto = this.exiteNomeDoProjeto();
+        const isNomeProjeto = this.existeNomeDoProjeto();
 
         if (isNomeProjeto.length) {
           this.notificar(
@@ -84,12 +87,16 @@ export default defineComponent({
           return this.checarProjeto();
         }
 
-        this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto);
+        this.store
+          .dispatch(CADASTRAR_PROJETO, this.nomeDoProjeto)
+          .then(() => this.lidarComSucesso());
       }
+    },
+    lidarComSucesso() {
       this.nomeDoProjeto = "";
       this.notificar(
         TipoNotificacao.SUCESSO,
-        "Novo projeto foi salvo",
+        "Excelente!",
         "Prontinho ;) seu projeto já está disponível."
       );
       this.$router.push("/projetos");
@@ -100,7 +107,7 @@ export default defineComponent({
     checarProjeto() {
       this.projetoInvalido = this.nomeDoProjeto.length <= 5;
     },
-    exiteNomeDoProjeto() {
+    existeNomeDoProjeto() {
       return this.store.state.projetos.filter(
         (p) => p.nome === this.nomeDoProjeto
       );

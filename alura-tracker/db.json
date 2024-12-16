@@ -1,0 +1,12 @@
+{
+  "projetos": [
+    {
+      "nome": "Estuando vueJs e typescript",
+      "id": 1
+    },
+    {
+      "id": 2,
+      "nome": "Vuex  - Estudando e implementando"
+    }
+  ]
+}
