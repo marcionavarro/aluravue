@@ -1,11 +1,14 @@
 <template>
   <Box>
-    <div class="columns is-mobile">
+    <div
+      class="columns is-mobile clicavel"
+      @click="tarefaClicada"
+    >
       <div class="column is-size-7-mobile is-size-5-widescreen is-align-content-center">
         {{ tarefa.descricao }}
       </div>
       <div class="column is-size-7-mobile is-size-5-widescreen is-align-content-center">
-        {{ tarefa.projeto?.nome }}
+        {{ tarefa.projeto[0]?.nome }}
       </div>
       <div class="column is-align-content-center">
         <Cronometro :tempoEmSegundos="tarefa.duracaoEmSegundos" />
@@ -22,6 +25,7 @@ import Box from "./Box.vue";
 
 export default defineComponent({
   name: "Tarefa",
+  emits: ["aoTarefaClicada"],
   components: {
     Cronometro,
     Box,
@@ -32,5 +36,16 @@ export default defineComponent({
       required: true,
     },
   },
+  methods: {
+    tarefaClicada(): void {
+      this.$emit("aoTarefaClicada", this.tarefa);
+    },
+  },
 });
 </script>
+
+<style scoped>
+.clicavel {
+  cursor: pointer;
+}
+</style>

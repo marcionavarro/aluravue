@@ -75,8 +75,9 @@ export default defineComponent({
     checarDescricao() {
       this.descricaoInvalida = this.descricao.length <= 5;
     },
-    checaProjeto(event: any) {
-      return event.target.value
+    checaProjeto(event: Event): boolean {
+      const input = event.target as HTMLInputElement | null;
+      return input?.value
         ? (this.projetoInvalido = false)
         : (this.projetoInvalido = true);
     },
@@ -84,7 +85,7 @@ export default defineComponent({
   setup() {
     const store = useStore(key);
     return {
-      projetos: computed(() => store.state.projetos),
+      projetos: computed(() => store.state.projeto.projetos),
     };
   },
 });

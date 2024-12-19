@@ -52,7 +52,7 @@ export default defineComponent({
   },
   mounted() {
     if (this.id) {
-      const projeto = this.store.state.projetos.find(
+      const projeto = this.store.state.projeto.projetos.find(
         (proj) => proj.id == this.id
       );
       this.nomeDoProjeto = projeto?.nome || "";
@@ -108,7 +108,7 @@ export default defineComponent({
       this.projetoInvalido = this.nomeDoProjeto.length <= 5;
     },
     existeNomeDoProjeto() {
-      return this.store.state.projetos.filter(
+      return this.store.state.projeto.projetos.filter(
         (p) => p.nome === this.nomeDoProjeto
       );
     },

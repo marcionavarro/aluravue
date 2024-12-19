@@ -8,5 +8,25 @@
       "id": 2,
       "nome": "Vuex  - Estudando e implementando"
     }
+  ],
+  "tarefas": [
+    {
+      "id": 1,
+      "duracaoEmSegundos": 120,
+      "descricao": "Configuração com vuex",
+      "projeto": {
+        "id": 1,
+        "nome": "Nova Tarefa"
+      }
+    },
+    {
+      "duracaoEmSegundos": 9,
+      "descricao": "Refatoração do Vuex",
+      "projeto": {
+        "id": 2,
+        "nome": "Vuex  - Estudando e implementando"
+      },
+      "id": 2
+    }
   ]
 }
